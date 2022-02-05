@@ -3,6 +3,7 @@ import { Document, ObjectId, SchemaTypes } from "mongoose";
 
 export type PostDocument = Post & Document;
 
+@Schema()
 export class Comment {
     @Prop({ type: SchemaTypes.ObjectId, ref: 'User' })
     userID: ObjectId;
@@ -22,7 +23,7 @@ export class Post {
     @Prop()
     content: string;
 
-    @Prop()
+    @Prop([Comment])
     comments: Comment[];
 
     @Prop({ type: [SchemaTypes.ObjectId], ref: 'User' })

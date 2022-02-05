@@ -10,4 +10,12 @@ export class PostsRepository {
     async createPost(userID: ObjectId, content: string): Promise<Post> {
         return await this.postModel.create({ userID, content });
     }
+
+    async addComment(postID: ObjectId, userID: ObjectId, comment: string): Promise<void> {
+        await this.postModel.findByIdAndUpdate(postID, {
+            $push: {
+                comments: { userID, comment }
+            }
+        });
+    }
 }
