@@ -60,6 +60,14 @@ Footer (All rights reserved (copyright symbol) and authors)
    6. create date
 
 
+## POST
+
 * `/posts` - create post
 * `/posts/comment` - add comment on post
 * `/posts/like` - like post
+* `/users/follow` - follow someone
+
+## GET
+
+* `/post/:id` - get single post
+* `/posts` - get all posts

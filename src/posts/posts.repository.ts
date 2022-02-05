@@ -51,7 +51,10 @@ export class PostsRepository {
      * @returns 
      */
     async getPostByID(id: ObjectId): Promise<Post> {
-        const post = await this.postModel.findById(id).populate(['userID', 'likes', 'comments.userID']);
+        const post = await this.postModel.findById(id)
+            .populate('userID', 'username')
+            .populate('likes', 'username')
+            .populate('comments.userID', 'username');
         return post;
     }
 }
