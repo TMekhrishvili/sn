@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { LikePostDto } from './dto/like-post.dto';
@@ -21,5 +22,10 @@ export class PostsController {
     @Post('like')
     likePost(@Body() likePostDto: LikePostDto) {
         this.postsService.likePost(likePostDto);
+    }
+
+    @Get(':id')
+    getPostByID(@Param('id') id: ObjectId) {
+        return this.postsService.getPostByID(id);
     }
 }

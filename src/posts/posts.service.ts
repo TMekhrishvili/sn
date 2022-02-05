@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { LikePostDto } from './dto/like-post.dto';
@@ -22,5 +23,9 @@ export class PostsService {
     async likePost(likePostDto: LikePostDto): Promise<void> {
         const { postID, userID } = likePostDto;
         await this.postsRepository.likePost(postID, userID);
+    }
+
+    async getPostByID(id: ObjectId): Promise<Post> {
+        return await this.postsRepository.getPostByID(id);
     }
 }

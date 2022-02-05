@@ -7,10 +7,22 @@ import { Post, PostDocument } from "./post.schema";
 export class PostsRepository {
     constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) { }
 
+    /**
+     * create post
+     * @param userID 
+     * @param content 
+     * @returns 
+     */
     async createPost(userID: ObjectId, content: string): Promise<Post> {
         return await this.postModel.create({ userID, content });
     }
 
+    /**
+     * add comment on post
+     * @param postID 
+     * @param userID 
+     * @param comment 
+     */
     async addComment(postID: ObjectId, userID: ObjectId, comment: string): Promise<void> {
         await this.postModel.findByIdAndUpdate(postID, {
             $push: {
@@ -19,11 +31,27 @@ export class PostsRepository {
         });
     }
 
+    /**
+     * like post
+     * @param postID 
+     * @param userID 
+     */
     async likePost(postID: ObjectId, userID: ObjectId) {
         await this.postModel.findByIdAndUpdate(postID, {
             $push: {
                 likes: userID
             }
         })
+    }
+
+    /**
+     * get single post by id
+     * userIDs are changed appropriate user
+     * @param id 
+     * @returns 
+     */
+    async getPostByID(id: ObjectId): Promise<Post> {
+        const post = await this.postModel.findById(id).populate(['userID', 'likes', 'comments.userID']);
+        return post;
     }
 }
