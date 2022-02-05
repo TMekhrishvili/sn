@@ -22,7 +22,7 @@ export class Post {
     @Prop()
     content: string;
 
-    @Prop({ type: [Comment] })
+    @Prop()
     comments: Comment[];
 
     @Prop({ type: [SchemaTypes.ObjectId], ref: 'User' })
