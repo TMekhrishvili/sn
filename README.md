@@ -58,3 +58,8 @@ Footer (All rights reserved (copyright symbol) and authors)
         }]
    5. likes [user id]
    6. create date
+
+
+* `/posts` - create post
+* `/posts/comment` - add comment on post
+* `/posts/like` - like post
