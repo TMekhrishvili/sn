@@ -28,4 +28,8 @@ export class PostsService {
     async getPostByID(id: ObjectId): Promise<Post> {
         return await this.postsRepository.getPostByID(id);
     }
+
+    async getPostsByFollowing(userID: ObjectId) {
+        return this.postsRepository.getPostsByFollowing(userID);
+    }
 }

@@ -1,11 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, ObjectId } from "mongoose";
+import { User, userDocument } from "src/users/user.schema";
 import { Post, PostDocument } from "./post.schema";
 
 @Injectable()
 export class PostsRepository {
-    constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) { }
+    constructor(
+        @InjectModel(Post.name) private postModel: Model<PostDocument>,
+        @InjectModel(User.name) private userModel: Model<userDocument>
+    ) { }
 
     /**
      * create post
@@ -56,5 +60,11 @@ export class PostsRepository {
             .populate('likes', 'username')
             .populate('comments.userID', 'username');
         return post;
+    }
+
+    async getPostsByFollowing(userID: ObjectId) {
+        const result = (await this.userModel.findById(userID, { followings: 1 })).followings;
+        const posts = await this.postModel.find({ userID: { $in: result } });
+        return posts;
     }
 }
