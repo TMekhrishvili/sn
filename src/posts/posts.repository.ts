@@ -18,4 +18,12 @@ export class PostsRepository {
             }
         });
     }
+
+    async likePost(postID: ObjectId, userID: ObjectId) {
+        await this.postModel.findByIdAndUpdate(postID, {
+            $push: {
+                likes: userID
+            }
+        })
+    }
 }
