@@ -6,10 +6,7 @@ import { Post, PostDocument } from "./post.schema";
 
 @Injectable()
 export class PostsRepository {
-    constructor(
-        @InjectModel(Post.name) private postModel: Model<PostDocument>,
-        @InjectModel(User.name) private userModel: Model<userDocument>
-    ) { }
+    constructor(@InjectModel(Post.name) private postModel: Model<PostDocument>) { }
 
     /**
      * create post
@@ -62,9 +59,8 @@ export class PostsRepository {
         return post;
     }
 
-    async getPostsByFollowing(userID: ObjectId) {
-        const result = (await this.userModel.findById(userID, { followings: 1 })).followings;
-        const posts = await this.postModel.find({ userID: { $in: result } });
+    async getPostsByFollowing(userID: string, followings: ObjectId[]) {
+        const posts = await this.postModel.find({ userID: { $in: followings } });
         return posts;
     }
 }

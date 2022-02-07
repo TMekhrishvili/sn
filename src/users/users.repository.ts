@@ -14,4 +14,12 @@ export class UsersRepository {
             }
         })
     }
+
+    async findOne(username: string): Promise<User> {
+        return await this.userModel.findOne({ username });
+    }
+
+    async findById(id: string): Promise<User> {
+        return await this.userModel.findById(id);
+    }
 }

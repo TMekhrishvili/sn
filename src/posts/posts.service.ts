@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
+import { UsersService } from 'src/users/users.service';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { LikePostDto } from './dto/like-post.dto';
@@ -8,7 +9,10 @@ import { PostsRepository } from './posts.repository';
 
 @Injectable()
 export class PostsService {
-    constructor(private readonly postsRepository: PostsRepository) { }
+    constructor(
+        private readonly postsRepository: PostsRepository,
+        private readonly usersService: UsersService
+    ) { }
 
     async createPost(createPostDto: CreatePostDto): Promise<Post> {
         const { userID, content } = createPostDto;
@@ -29,7 +33,9 @@ export class PostsService {
         return await this.postsRepository.getPostByID(id);
     }
 
-    async getPostsByFollowing(userID: ObjectId) {
-        return this.postsRepository.getPostsByFollowing(userID);
+    async getPostsByFollowing() {
+        const userID = '' // ეს უნდა ავიღო ავტორიზებული მომხმარებლისგან
+        const user = await this.usersService.findById(userID)
+        return this.postsRepository.getPostsByFollowing(userID, user.followings);
     }
 }

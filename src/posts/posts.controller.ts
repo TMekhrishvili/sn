@@ -29,8 +29,8 @@ export class PostsController {
         return this.postsService.getPostByID(id);
     }
 
-    @Get('all/:userID')
-    getPostsByFollowing(@Param('userID') userID: ObjectId) {
-        return this.postsService.getPostsByFollowing(userID);
+    @Get('all')
+    getPostsByFollowing() {
+        return this.postsService.getPostsByFollowing();
     }
 }
