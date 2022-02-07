@@ -22,4 +22,8 @@ export class UsersRepository {
     async findById(id: ObjectId): Promise<User> {
         return await this.userModel.findById(id);
     }
+
+    async createUser(username: string, email: string, hashedPass: string): Promise<User> {
+        return await this.userModel.create({ username, email, hash: hashedPass });
+    }
 }

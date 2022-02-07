@@ -14,18 +14,18 @@ export class PostsService {
         private readonly usersService: UsersService
     ) { }
 
-    async createPost(createPostDto: CreatePostDto): Promise<Post> {
-        const { userID, content } = createPostDto;
-        return await this.postsRepository.createPost(userID, content);
+    async createPost(id: string, createPostDto: CreatePostDto): Promise<Post> {
+        const { content } = createPostDto;
+        return await this.postsRepository.createPost(id, content);
     }
 
-    async addComment(addCommentDto: AddCommentDto): Promise<void> {
-        const { postID, userID, comment } = addCommentDto;
+    async addComment(userID: string, addCommentDto: AddCommentDto): Promise<void> {
+        const { postID, comment } = addCommentDto;
         await this.postsRepository.addComment(postID, userID, comment);
     }
 
-    async likePost(likePostDto: LikePostDto): Promise<void> {
-        const { postID, userID } = likePostDto;
+    async likePost(likePostDto: LikePostDto, userID: string): Promise<void> {
+        const { postID } = likePostDto;
         await this.postsRepository.likePost(postID, userID);
     }
 

@@ -18,4 +18,8 @@ export class UsersService {
     async findById(id: ObjectId): Promise<User> {
         return await this.usersRepository.findById(id);
     }
+
+    async register(username: string, email: string, hash: string): Promise<User> {
+        return await this.usersRepository.createUser(username, email, hash);
+    }
 }

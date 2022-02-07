@@ -13,7 +13,7 @@ export class PostsRepository {
      * @param content 
      * @returns 
      */
-    async createPost(userID: ObjectId, content: string): Promise<Post> {
+    async createPost(userID: string, content: string): Promise<Post> {
         return await this.postModel.create({ userID, content });
     }
 
@@ -23,7 +23,7 @@ export class PostsRepository {
      * @param userID 
      * @param comment 
      */
-    async addComment(postID: ObjectId, userID: ObjectId, comment: string): Promise<void> {
+    async addComment(postID: ObjectId, userID: string, comment: string): Promise<void> {
         await this.postModel.findByIdAndUpdate(postID, {
             $push: {
                 comments: { userID, comment }
@@ -36,7 +36,7 @@ export class PostsRepository {
      * @param postID 
      * @param userID 
      */
-    async likePost(postID: ObjectId, userID: ObjectId) {
+    async likePost(postID: ObjectId, userID: string) {
         await this.postModel.findByIdAndUpdate(postID, {
             $push: {
                 likes: userID
@@ -61,7 +61,7 @@ export class PostsRepository {
     async getPostsByFollowing(followings: ObjectId[]) {
         const posts = await this.postModel.find({ userID: { $in: followings } });
         console.log(posts);
-        
+
         return posts;
     }
 }

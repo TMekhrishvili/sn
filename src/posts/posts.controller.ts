@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AddCommentDto } from './dto/add-comment.dto';
@@ -12,18 +12,18 @@ export class PostsController {
     constructor(private readonly postsService: PostsService) { }
 
     @Post()
-    createPost(@Body() createPostDto: CreatePostDto) {
-        return this.postsService.createPost(createPostDto);
+    createPost(@Body() createPostDto: CreatePostDto, @Req() req) {
+        return this.postsService.createPost(req.user.userId, createPostDto);
     }
 
     @Post('comment')
-    addComment(@Body() addCommentDto: AddCommentDto) {
-        this.postsService.addComment(addCommentDto);
+    addComment(@Body() addCommentDto: AddCommentDto, @Req() req) {
+        this.postsService.addComment(req.user.userId, addCommentDto);
     }
 
     @Post('like')
-    likePost(@Body() likePostDto: LikePostDto) {
-        this.postsService.likePost(likePostDto);
+    likePost(@Body() likePostDto: LikePostDto, @Req() req) {
+        this.postsService.likePost(likePostDto, req.user.userID);
     }
 
     @Get(':id')
