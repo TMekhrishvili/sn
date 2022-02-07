@@ -15,7 +15,6 @@ services:
     environment:
       PORT: 3001
       MONGOURI: mongodb://mongodb:27017/twitter
-      DBNAME: twitter
     depends_on:
       - mongodb
 
