@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { LikePostDto } from './dto/like-post.dto';
 import { PostsService } from './posts.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('posts')
 export class PostsController {
     constructor(private readonly postsService: PostsService) { }
@@ -29,8 +31,9 @@ export class PostsController {
         return this.postsService.getPostByID(id);
     }
 
-    @Get('all')
-    getPostsByFollowing() {
-        return this.postsService.getPostsByFollowing();
+    @Get('all/get')
+    getPostsByFollowing(@Request() req) {
+        const id = req.user.userId;
+        return this.postsService.getPostsByFollowing(id);
     }
 }

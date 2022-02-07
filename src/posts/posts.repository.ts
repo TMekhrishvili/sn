@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, ObjectId } from "mongoose";
-import { User, userDocument } from "src/users/user.schema";
 import { Post, PostDocument } from "./post.schema";
 
 @Injectable()
@@ -59,8 +58,10 @@ export class PostsRepository {
         return post;
     }
 
-    async getPostsByFollowing(userID: string, followings: ObjectId[]) {
+    async getPostsByFollowing(followings: ObjectId[]) {
         const posts = await this.postModel.find({ userID: { $in: followings } });
+        console.log(posts);
+        
         return posts;
     }
 }

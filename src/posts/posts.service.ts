@@ -33,9 +33,8 @@ export class PostsService {
         return await this.postsRepository.getPostByID(id);
     }
 
-    async getPostsByFollowing() {
-        const userID = '' // ეს უნდა ავიღო ავტორიზებული მომხმარებლისგან
+    async getPostsByFollowing(userID: ObjectId) {
         const user = await this.usersService.findById(userID)
-        return this.postsRepository.getPostsByFollowing(userID, user.followings);
+        return this.postsRepository.getPostsByFollowing(user.followings);
     }
 }

@@ -7,9 +7,7 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
     constructor(private readonly usersRepository: UsersRepository) { }
 
-    async followSomeone(userID: ObjectId) {
-        // წესით id-იდ უნდა ავიღო ავტორიზებული მომხმარებლის id
-        const id = '61fea9ede3751cf60d6f689e';
+    async followSomeone(id: string, userID: ObjectId) {
         await this.usersRepository.followSomeone(id, userID);
     }
 
@@ -17,7 +15,7 @@ export class UsersService {
         return await this.usersRepository.findOne(username);
     }
 
-    async findById(id: string): Promise<User> {
+    async findById(id: ObjectId): Promise<User> {
         return await this.usersRepository.findById(id);
     }
 }
